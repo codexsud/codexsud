@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'SUD',
+  title: 'codexsud',
   tagline: 'A site by SUD',
   favicon: 'img/favicon.ico',
   url: 'https://codexsud.com/',
@@ -42,7 +42,7 @@ const config: Config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'SUD',
+      title: 'Code x SUD',
       logo: {
         alt: 'codexsud',
         src: 'img/logo.svg',
