@@ -1,8 +1,8 @@
 ---
 slug: welcome
 title: Welcome
-authors: [codexsud]
-tags: [facebook, hello, docusaurus]
+authors: []
+tags: []
 ---
 
 [Docusaurus blogging features](https://docusaurus.io/docs/blog) are powered by the [blog plugin](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog).

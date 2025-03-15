@@ -1,19 +1,15 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+cap:
+  label: CAP
+  permalink: /cap
+  description: CAP Theorem
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+acid:
+  label: ACID
+  permalink: /acid
+  description: ACID
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+system-design:
+  label: System Design
+  permalink: /system-design
+  description: System Design
