@@ -1,14 +1,3 @@
-
-cap:
-  label: CAP
-  permalink: /cap
-  description: CAP Theorem
-
-acid:
-  label: ACID
-  permalink: /acid
-  description: ACID
-
 system-design:
   label: System Design
   permalink: /system-design

@@ -2,7 +2,7 @@
 slug: make-api-fast
 title: Improve latency of API
 authors: []
-tags: [cap, acid, system-design]
+tags: [system-design]
 ---
 
 # Make API Fast

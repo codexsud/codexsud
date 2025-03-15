@@ -50,9 +50,9 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'systemDesignSidebar',
           position: 'left',
-          label: 'Reference',
+          label: 'System Design',
         },
         { to: '/blog', label: 'Blog', position: 'left' },
       ],
