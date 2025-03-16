@@ -16,21 +16,7 @@ const config: Config = {
     defaultLocale: "en",
     locales: ["en"],
   },
-  plugins: [
-    function tailwindPlugin(context, options) {
-      return {
-        name: "tailwind-plugin",
-        configurePostCss(postcssOptions) {
-          postcssOptions.plugins = [
-            require("postcss-import"),
-            require("tailwindcss"),
-            require("autoprefixer"),
-          ];
-          return postcssOptions;
-        },
-      };
-    },
-  ],
+  plugins: ["./src/plugins/tailwindPlugin", "./src/plugins/sitePlugin"],
   presets: [
     [
       "classic",
