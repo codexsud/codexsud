@@ -6,7 +6,7 @@ export default function Home(): ReactNode {
   return (
     <Layout description="Description will go into a meta tag in <head />">
       <main className={styles.center}>
-        Hello, World!
+        <h1 className="text-blue-500">Hello, World!</h1>
       </main>
     </Layout>
   );
