@@ -1,15 +1,10 @@
 ---
-slug: make-api-fast
-title: Improve latency of API
-authors: []
-tags: [system-design]
+sidebar_position: 1
 ---
 
 # Make API Fast
 
 Addressing very high latency in API endpoints can be a complex task, and the approach depends on the specific factors contributing to the latency. Here are some general steps and strategies you can take to identify and solve high latency issues in API endpoints:
-
-<!-- truncate -->
 
 1. **Performance Monitoring:**
     
