@@ -1,8 +1,8 @@
+import Main from "@site/src/components/sql/Main";
+import { store } from "@site/src/components/sql/store";
 import Layout from "@theme/Layout";
 import type { ReactNode } from "react";
 import { Provider } from "react-redux";
-import Main from "./components/Main";
-import { store } from "./store";
 
 export default function SQL(): ReactNode {
   return (
