@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import initSqlJs from "sql.js";
 import seed from "./data/seed";
-import { updateDb } from "./features/appSlice";
+import { updateDb } from "./slices/appSlice";
 
 const Main = () => {
   const dispatch = useDispatch();
