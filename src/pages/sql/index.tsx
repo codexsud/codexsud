@@ -7,11 +7,9 @@ import { Provider } from "react-redux";
 export default function SQL(): ReactNode {
   return (
     <Layout title="SQL">
-      <main className="center">
-        <Provider store={store}>
-          <Main />
-        </Provider>
-      </main>
+      <Provider store={store}>
+        <Main />
+      </Provider>
     </Layout>
   );
 }

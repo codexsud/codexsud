@@ -2,6 +2,7 @@ import sqlWasm from "@site/src/lib/wasm";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import initSqlJs from "sql.js";
+import Sidebar from "./components/Sidebar";
 import seed from "./data/seed";
 import { updateDb } from "./slices/appSlice";
 
@@ -45,7 +46,12 @@ const Main = () => {
   } else if (!db) {
     return <div>Loading...</div>;
   } else {
-    return <div>SQL.js loaded successfully!</div>;
+    return (
+      <div>
+        <h1>SQL Playground</h1>
+        <Sidebar />
+      </div>
+    );
   }
 };
 
