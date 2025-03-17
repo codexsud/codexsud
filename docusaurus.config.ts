@@ -12,10 +12,6 @@ const config: Config = {
   projectName: "codexsud",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
-  },
   plugins: ["./src/plugins/tailwindPlugin", "./src/plugins/sitePlugin"],
   presets: [
     [
