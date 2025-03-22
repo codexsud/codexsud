@@ -1,66 +1,15 @@
-import React, { useEffect, useState } from "react";
 import {
   ChevronDown,
-  ChevronRight,
-  ExternalLink,
   ChevronDownSquare,
+  ChevronRight,
   ChevronUpSquare,
+  ExternalLink,
   Filter,
 } from "lucide-react";
-
-export interface Problem {
-  neetcode250?: boolean;
-  neetcode150?: boolean;
-  blind75?: boolean;
-  grind75?: boolean;
-  grind169?: boolean;
-  problem: string;
-  pattern: string;
-  link: string;
-  video: string;
-  difficulty: string;
-  code: string;
-}
-
-type Collection =
-  | "All"
-  | "alpha"
-  | "Blind75"
-  | "Neetcode150"
-  | "Neetcode250"
-  | "Grind75"
-  | "Grind169";
-
-interface ProblemListProps {
-  problems: Problem[];
-}
-
-const DifficultyBadge: React.FC<{ difficulty: string }> = ({ difficulty }) => {
-  const colors = {
-    Easy: "bg-green-100 text-green-800",
-    Medium: "bg-yellow-100 text-yellow-800",
-    Hard: "bg-red-100 text-red-800",
-  };
-
-  return (
-    <span
-      className={`px-2 py-1 rounded-full text-xs font-medium ${
-        colors[difficulty as keyof typeof colors]
-      }`}
-    >
-      {difficulty}
-    </span>
-  );
-};
-
-const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
-  <div className="w-full bg-gray-200 rounded-full h-2.5">
-    <div
-      className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
-      style={{ width: `${progress}%` }}
-    />
-  </div>
-);
+import React, { useEffect, useState } from "react";
+import { Collection, Problem, ProblemListProps } from "../types";
+import DifficultyBadge from "./DifficultyBadge";
+import ProgressBar from "./ProgressBar";
 
 const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
   const [completedProblems, setCompletedProblems] = useState<Set<string>>(
