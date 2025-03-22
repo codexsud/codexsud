@@ -1,15 +1,9 @@
-import {
-  ChevronDown,
-  ChevronDownSquare,
-  ChevronRight,
-  ChevronUpSquare,
-  ExternalLink,
-  Filter,
-} from "lucide-react";
+import { ChevronDownSquare, ChevronUpSquare, Filter } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Collection, Problem, ProblemListProps } from "../types";
-import DifficultyBadge from "./DifficultyBadge";
 import ProgressBar from "./ProgressBar";
+import ProblemGroup from "./ProblemGroup";
+import { filterProblems } from "../utils";
 
 const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
   const [completedProblems, setCompletedProblems] = useState<Set<string>>(
@@ -35,30 +29,6 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
     );
   }, [completedProblems]);
 
-  const toggleProblemCompletion = (code: string) => {
-    setCompletedProblems((prev) => {
-      const next = new Set(prev);
-      if (next.has(code)) {
-        next.delete(code);
-      } else {
-        next.add(code);
-      }
-      return next;
-    });
-  };
-
-  const togglePattern = (pattern: string) => {
-    setExpandedPatterns((prev) => {
-      const next = new Set(prev);
-      if (next.has(pattern)) {
-        next.delete(pattern);
-      } else {
-        next.add(pattern);
-      }
-      return next;
-    });
-  };
-
   const toggleAllPatterns = () => {
     const allPatterns = Array.from(new Set(problems.map((p) => p.pattern)));
     setExpandedPatterns((prev) => {
@@ -69,26 +39,7 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
     });
   };
 
-  const filterProblems = (problems: Problem[]): Problem[] => {
-    switch (selectedCollection) {
-      case "alpha":
-        return problems;
-      case "Blind75":
-        return problems.filter((problem) => problem.blind75);
-      case "Neetcode150":
-        return problems.filter((problem) => problem.neetcode150);
-      case "Neetcode250":
-        return problems.filter((problem) => problem.neetcode250);
-      case "Grind75":
-        return problems.filter((problem) => problem.grind75);
-      case "Grind169":
-        return problems.filter((problem) => problem.grind169);
-      default:
-        return problems;
-    }
-  };
-
-  const filteredProblems = filterProblems(problems);
+  const filteredProblems = filterProblems(problems, selectedCollection);
   const groupedProblems = filteredProblems.reduce((acc, problem) => {
     if (!acc[problem.pattern]) {
       acc[problem.pattern] = [];
@@ -156,80 +107,13 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
           {Math.round(overallProgress)}%)
         </p>
       </div>
-
-      {Object.entries(groupedProblems).map(([pattern, patternProblems]) => {
-        const patternCompletedCount = patternProblems.filter((p) =>
-          completedProblems.has(p.code)
-        ).length;
-        const patternProgress =
-          (patternCompletedCount / patternProblems.length) * 100;
-        const isExpanded = expandedPatterns.has(pattern);
-
-        return (
-          <div key={pattern} className="mb-8">
-            <div
-              className="flex items-center cursor-pointer mb-4"
-              onClick={() => togglePattern(pattern)}
-            >
-              {isExpanded ? (
-                <ChevronDown className="w-5 h-5 text-gray-500 mr-2" />
-              ) : (
-                <ChevronRight className="w-5 h-5 text-gray-500 mr-2" />
-              )}
-              <h2 className="text-2xl font-bold text-gray-900 flex-1">
-                {pattern}
-              </h2>
-              <span className="text-sm text-gray-600 mr-4">
-                {patternCompletedCount} / {patternProblems.length}
-              </span>
-            </div>
-            <ProgressBar progress={patternProgress} />
-
-            {isExpanded && (
-              <div className="bg-white rounded-lg shadow overflow-hidden mt-4">
-                <ul className="divide-y divide-gray-200">
-                  {patternProblems.map((problem) => (
-                    <li
-                      key={problem.code}
-                      className="p-4 hover:bg-gray-50 transition-colors list-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1 flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={completedProblems.has(problem.code)}
-                            onChange={() =>
-                              toggleProblemCompletion(problem.code)
-                            }
-                            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 mr-4"
-                          />
-                          <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-medium text-gray-900">
-                              {problem.problem}
-                            </h3>
-                            <DifficultyBadge difficulty={problem.difficulty} />
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <a
-                            href={`https://leetcode.com/problems/${problem.link}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-900"
-                            title="Problem"
-                          >
-                            <ExternalLink className="w-5 h-5" />
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        );
-      })}
+      <ProblemGroup
+        completedProblems={completedProblems}
+        setCompletedProblems={setCompletedProblems}
+        expandedPatterns={expandedPatterns}
+        setExpandedPatterns={setExpandedPatterns}
+        groupedProblems={groupedProblems}
+      />
     </div>
   );
 };
