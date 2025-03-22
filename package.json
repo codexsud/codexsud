@@ -12,8 +12,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "postinstall": "npm install --force"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
@@ -25,8 +24,8 @@
     "lucide-react": "^0.483.0",
     "ogl": "^1.0.11",
     "prism-react-renderer": "^2.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-redux": "^9.2.0",
     "sql.js": "^1.13.0"
   },
