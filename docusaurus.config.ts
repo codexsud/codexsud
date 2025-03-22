@@ -45,7 +45,12 @@ const config: Config = {
         src: "img/logo.svg",
       },
       items: [
-        { to: "/dsa", label: "DSA", position: "left" },
+        {
+          type: "docSidebar",
+          sidebarId: "dsa",
+          position: "left",
+          label: "DSA",
+        },
         { to: "/sql", label: "SQL", position: "left" },
         {
           type: "docSidebar",

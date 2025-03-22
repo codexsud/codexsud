@@ -1,14 +1,19 @@
+import React, { useEffect, useState } from "react";
 import {
   ChevronDown,
   ChevronRight,
-  Code2,
   ExternalLink,
-  PlayCircle,
+  ChevronDownSquare,
+  ChevronUpSquare,
+  Filter,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
 
 export interface Problem {
-  neetcode250: boolean;
+  neetcode250?: boolean;
+  neetcode150?: boolean;
+  blind75?: boolean;
+  grind75?: boolean;
+  grind169?: boolean;
   problem: string;
   pattern: string;
   link: string;
@@ -16,6 +21,15 @@ export interface Problem {
   difficulty: string;
   code: string;
 }
+
+type Collection =
+  | "All"
+  | "alpha"
+  | "Blind75"
+  | "Neetcode150"
+  | "Neetcode250"
+  | "Grind75"
+  | "Grind169";
 
 interface ProblemListProps {
   problems: Problem[];
@@ -53,8 +67,10 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
     new Set()
   );
   const [expandedPatterns, setExpandedPatterns] = useState<Set<string>>(
-    new Set()
+    new Set(problems.map((p) => p.pattern))
   );
+  const [selectedCollection, setSelectedCollection] =
+    useState<Collection>("alpha");
 
   useEffect(() => {
     const saved = localStorage.getItem("completedProblems");
@@ -94,7 +110,37 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
     });
   };
 
-  const groupedProblems = problems.reduce((acc, problem) => {
+  const toggleAllPatterns = () => {
+    const allPatterns = Array.from(new Set(problems.map((p) => p.pattern)));
+    setExpandedPatterns((prev) => {
+      if (prev.size === allPatterns.length) {
+        return new Set();
+      }
+      return new Set(allPatterns);
+    });
+  };
+
+  const filterProblems = (problems: Problem[]): Problem[] => {
+    switch (selectedCollection) {
+      case "alpha":
+        return problems;
+      case "Blind75":
+        return problems.filter((problem) => problem.blind75);
+      case "Neetcode150":
+        return problems.filter((problem) => problem.neetcode150);
+      case "Neetcode250":
+        return problems.filter((problem) => problem.neetcode250);
+      case "Grind75":
+        return problems.filter((problem) => problem.grind75);
+      case "Grind169":
+        return problems.filter((problem) => problem.grind169);
+      default:
+        return problems;
+    }
+  };
+
+  const filteredProblems = filterProblems(problems);
+  const groupedProblems = filteredProblems.reduce((acc, problem) => {
     if (!acc[problem.pattern]) {
       acc[problem.pattern] = [];
     }
@@ -102,16 +148,59 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
     return acc;
   }, {} as Record<string, Problem[]>);
 
-  const totalProblems = problems.length;
-  const completedCount = completedProblems.size;
-  const overallProgress = (completedCount / totalProblems) * 100;
+  const totalProblems = filteredProblems.length;
+  const completedCount = [...completedProblems].filter((code) =>
+    filteredProblems.some((p) => p.code === code)
+  ).length;
+  const overallProgress =
+    totalProblems === 0 ? 0 : (completedCount / totalProblems) * 100;
+  const allPatternsExpanded =
+    expandedPatterns.size === Object.keys(groupedProblems).length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Overall Progress
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Overall Progress
+          </h2>
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <select
+                value={selectedCollection}
+                onChange={(e) =>
+                  setSelectedCollection(e.target.value as Collection)
+                }
+                className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <option value="alpha">alpha</option>
+                <option value="All">All Problems</option>
+                <option value="Blind75">Blind 75</option>
+                <option value="Neetcode150">Neetcode 150</option>
+                <option value="Neetcode250">Neetcode 250</option>
+                <option value="Grind75">Grind 75</option>
+                <option value="Grind169">Grind 169</option>
+              </select>
+              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+            <button
+              onClick={toggleAllPatterns}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              {allPatternsExpanded ? (
+                <>
+                  <ChevronUpSquare className="w-5 h-5" />
+                  Collapse All
+                </>
+              ) : (
+                <>
+                  <ChevronDownSquare className="w-5 h-5" />
+                  Expand All
+                </>
+              )}
+            </button>
+          </div>
+        </div>
         <ProgressBar progress={overallProgress} />
         <p className="mt-2 text-sm text-gray-600">
           {completedCount} of {totalProblems} problems completed (
@@ -153,7 +242,7 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
                   {patternProblems.map((problem) => (
                     <li
                       key={problem.code}
-                      className="p-4 hover:bg-gray-50 transition-colors"
+                      className="p-4 hover:bg-gray-50 transition-colors list-none"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1 flex items-center">
@@ -170,11 +259,6 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
                               {problem.problem}
                             </h3>
                             <DifficultyBadge difficulty={problem.difficulty} />
-                            {problem.neetcode250 && (
-                              <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
-                                Neetcode 250
-                              </span>
-                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -186,24 +270,6 @@ const ProblemList: React.FC<ProblemListProps> = ({ problems }) => {
                             title="Problem"
                           >
                             <ExternalLink className="w-5 h-5" />
-                          </a>
-                          <a
-                            href={`https://youtube.com/watch?v=${problem.video}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-900"
-                            title="Video Solution"
-                          >
-                            <PlayCircle className="w-5 h-5" />
-                          </a>
-                          <a
-                            href={`https://github.com/neetcode-gh/leetcode/blob/main/typescript/${problem.code}.ts`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-900"
-                            title="Code Solution"
-                          >
-                            <Code2 className="w-5 h-5" />
                           </a>
                         </div>
                       </div>
