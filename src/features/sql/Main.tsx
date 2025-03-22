@@ -47,9 +47,8 @@ const Main = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
-        <h1>SQL Playground</h1>
-        <Sidebar />
+      <div className="w-full h-[90vh] flex justify-center items-center">
+        <h1 className="text-blue-500">SQL.js loaded successfully.</h1>
       </div>
     );
   }

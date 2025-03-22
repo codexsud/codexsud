@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Code x SUD",
+  title: "alphacrash",
   tagline: "A site by SUD",
   favicon: "img/favicon.ico",
   url: "https://codexsud.com/",
@@ -28,7 +28,7 @@ const config: Config = {
           },
           onInlineTags: "warn",
           onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
+          onUntruncatedBlogPosts: "ignore",
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -39,7 +39,7 @@ const config: Config = {
   themeConfig: {
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "Code x SUD",
+      title: "alphacrash",
       logo: {
         alt: "codexsud",
         src: "img/logo.svg",
